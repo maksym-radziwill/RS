@@ -92,6 +92,7 @@ void * status_bar_u(void * data){
       	MPI_Allgather(&local_value, 1, MPI_DOUBLE, local_ratio + world_rank, 1, MPI_DOUBLE, MPI_COMM_WORLD);
 #else
 	global_ratio = local_value;
+	local_ratio[world_rank] = local_value;
 #endif
 
 	global_ratio /= world_size;
