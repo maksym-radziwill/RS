@@ -6,7 +6,7 @@ Implementation of the Riemann-Siegel formula on the GPU + MPI
 
 On an already configured system it is enough to run
 
-   cd build; cmake ../CMake; make
+   mkdir build; cd build; cmake ../CMake; make
    
 The program is then compiled in the file rs in the build directory
 
