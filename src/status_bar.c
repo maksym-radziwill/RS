@@ -89,7 +89,7 @@ void * status_bar_u(void * data){
 
 #ifdef HAS_MPI
         MPI_Allreduce(&local_value, &global_ratio, 1, MPI_DOUBLE, MPI_SUM, MPI_COMM_WORLD);
-      	MPI_Allgather(&local_value, 1, MPI_DOUBLE, local_ratio + world_rank, 1, MPI_DOUBLE, MPI_COMM_WORLD);
+      	MPI_Allgather(&local_value, 1, MPI_DOUBLE, local_ratio, 1, MPI_DOUBLE, MPI_COMM_WORLD);
 #else
 	global_ratio = local_value;
 	local_ratio[world_rank] = local_value;
