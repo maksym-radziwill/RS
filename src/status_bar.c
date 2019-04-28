@@ -52,7 +52,9 @@ void * status_bar_u(void * data){
 
       /* Check if all hosts have returned */ 
       
+#ifdef HAS_MPI
       MPI_Barrier(MPI_COMM_WORLD); 
+#endif
       
       double counter = 0;
       for(int i = 0; i < world_size; i++)
