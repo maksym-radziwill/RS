@@ -95,7 +95,7 @@ void * status_bar_u(void * data){
 	    refresh();
 
 	    old_global_ratio = global_ratio;
-	    usleep(100000); 
+	    usleep(1000000); 
 	}
 	
     }
