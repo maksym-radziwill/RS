@@ -1,7 +1,7 @@
 #include <arb.h>
 #include <sys/sysinfo.h>
 #include <pthread.h>
-
+#include "config.h"
 #ifdef HAS_MPI
 #include <mpi.h>
 #endif
@@ -153,9 +153,11 @@ double _Complex * stage1(arb_t t, int k, int world_rnk, int world_sz){
     	pthread_join(threads[i], NULL); 
     }
 
+    /* This waits for all the status bar threads to terminate */ 
+    
     if(!silent_flag)
-    	pthread_cancel(status_bar_thread); 
-
+      pthread_join(status_bar_thread, NULL); 
+    
     for(int i = 0; i < num_threads; i++) fmpz_clear(thread_n[i]); 
     
     for(int i = 0; i < num_threads; i++){

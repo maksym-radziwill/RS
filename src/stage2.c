@@ -5,6 +5,7 @@
 #include <sys/sysinfo.h>
 #include <curses.h>
 
+#include "config.h"
 #ifdef HAS_MPI
 #include <mpi.h>
 #endif
@@ -147,9 +148,11 @@ double _Complex * stage2(arb_t local_t, int k, int world_rnk, int world_sz){
     if(!nocache_flag)
 	save_data(t, k, result, world_rank, world_size, 2, global_n); 
 
+    /* This waits for all the status bar thread to terminate */ 
+
     if(!silent_flag)
-      	pthread_cancel(status_bar_thread); 
-    
+      pthread_join(status_bar_thread, NULL); 
+
     /* Compute the theta function and output the final result */ 
     
     arb_clear(t);
