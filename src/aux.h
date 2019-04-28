@@ -8,6 +8,7 @@
 #include <complex.h>
 #include <acb.h>
 #include <string.h>
+#include <pthread.h>
 
 #define MAX_PREC 10*53 // Maximum precision of arb
 
@@ -39,3 +40,4 @@ double * compute_Z(double _Complex * zeta, arb_t t, int k);
 double _Complex * compute_zeta(double _Complex * result_stage1, double _Complex * result_stage2, arb_t t, int k);
 int gcd(int m, int n);
 int lcm(int m, int n);
+pthread_attr_t thread_priority(int); 

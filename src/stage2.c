@@ -122,15 +122,19 @@ double _Complex * stage2(arb_t local_t, int k, int world_rnk, int world_sz){
 
     pthread_t * threads = (pthread_t *) malloc(num_threads*sizeof(pthread_t)); 
     pthread_t status_bar_thread;  // will not be used if in silent mode
+
     
     for(int i = 0; i < num_threads; i++){
 	int * num = (int *) malloc(sizeof(int));
-	*num = i; 
-	pthread_create(&threads[i], NULL, &stage2_thread, num); 
+	*num = i;
+
+	pthread_attr_t tattr = thread_priority(99);
+	pthread_create(&threads[i], &tattr, &stage2_thread, num); 
     }    
 
     if(!silent_flag){
 	struct status_bar_args args;
+	pthread_attr_t tattr = thread_priority(1); 
 	args.maximal_n = &maximal_n;
 	args.global_n = &global_n;
 	args.n_mutex = &n_mutex; 
@@ -138,7 +142,7 @@ double _Complex * stage2(arb_t local_t, int k, int world_rnk, int world_sz){
 	args.world_size = world_size; 
 	args.str = (char *) malloc(16);
 	sprintf(args.str, "Stage 2"); 
-	pthread_create(&status_bar_thread, NULL, &status_bar_u, &args); 
+	pthread_create(&status_bar_thread, &tattr, &status_bar_u, &args); 
     }
 	
     for(int i = 0; i < num_threads; i++){

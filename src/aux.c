@@ -2,9 +2,12 @@
 #include <acb.h>
 #include <acb_dirichlet.h>
 #include <flint/fmpz.h>
+#include <pthread.h>
 #include "md5.h"
 #include "aux.h"
 #include "cuda.h"
+
+
 
 int gcd(int m, int n)
 {
@@ -527,3 +530,21 @@ void arb_fmod(arb_t output, arb_t x, arb_t y, int prec){
 
 }
 
+pthread_attr_t thread_priority(int newprio){
+    pthread_attr_t tattr; 
+    struct sched_param param;
+
+    /* initialized with default attributes */
+    pthread_attr_init (&tattr);
+
+    /* safe to get existing scheduling param */
+    pthread_attr_getschedparam (&tattr, &param);
+
+    /* set the priority; others are unchanged */
+    param.sched_priority = newprio;
+    
+    /* setting the new scheduling param */
+    pthread_attr_setschedparam (&tattr, &param);
+
+    return tattr;
+}
