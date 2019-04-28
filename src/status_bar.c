@@ -43,9 +43,6 @@ void * status_bar_u(void * data){
     double global_ratio = 0; 
     double old_global_ratio = 0; 
     
-    int minutes = 0;
-    int hours = 0; 
-    
     clear();
 
     while(1){
