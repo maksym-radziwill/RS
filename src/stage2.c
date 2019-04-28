@@ -125,11 +125,11 @@ double _Complex * stage2(arb_t local_t, int k, int world_rnk, int world_sz){
 
     pthread_attr_t tattr = thread_priority(99);
 
-    
+    int * num = (int *) malloc(num_threads*sizeof(int));
+
     for(int i = 0; i < num_threads; i++){
-	int * num = (int *) malloc(sizeof(int));
-	*num = i;
-	pthread_create(&threads[i], &tattr, &stage2_thread, num); 
+	num[i] = i;
+	pthread_create(&threads[i], &tattr, &stage2_thread, num + i); 
     }    
 
     pthread_attr_t status_tattr = thread_priority(1); 
@@ -161,6 +161,7 @@ double _Complex * stage2(arb_t local_t, int k, int world_rnk, int world_sz){
     /* Compute the theta function and output the final result */ 
     
     arb_clear(t);
+    free(num);
     fmpz_clear(global_n);
     fmpz_clear(maximal_n); 
     
@@ -330,7 +331,7 @@ void * stage2_thread (void * data){
 
     /* We allocate more than we need to be on the safe side */ 
     
-    //    int aux_prec[16]; for(int i = 0; i < 16; i++) aux_prec[i] = 53;
+  
     int aux_prec_m[16]; for(int i = 0; i < 16; i++) aux_prec_m[i] = 53; 
     int aux_prec_s[16]; for(int i = 0; i < 16; i++) aux_prec_s[i] = 53; 
     
@@ -474,8 +475,12 @@ void * stage2_thread (void * data){
     
     cudaStreamDestroy(stream);
 
+    free(multipliers);
+    free(shifts);
+    clear_temp(temp_s, num_var);
     clear_temp(temp_m, num_var); 
     clear_temp(temp, num_var);
+    arb_clear(shift);
     fmpz_clear(n);
     fmpz_clear(len);
 

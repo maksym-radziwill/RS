@@ -93,7 +93,8 @@ void * riemann_siegel_progression_mpfr(void * data){
     clear_temp(temp, 4);
     arb_clear(delta);
     fmpz_clear(N);
-    //    fmpz_clear(thread_n[tid]); 
+    // TODO : Make sure this does not cause trouble
+    fmpz_clear(thread_n[tid]); 
 
     return NULL; 
 
@@ -175,6 +176,11 @@ double _Complex * stage1(arb_t t, int k, int world_rnk, int world_sz){
 	save_data(t, k, result, world_rnk, world_sz, 1, maximal_n);
 
     free(threads); 
+    free(th_args);
+    free(thread_n);
+    fmpz_clear(maximal_n);
+    // TODO: Where is the dummy variable used
+    fmpz_clear(dummy);
     
     return result; 
     

@@ -431,7 +431,9 @@ void stage2_range(fmpz_t output, arb_t t){
 	fmpz_set(output, rs);
 	printf("Stage 1 bigger than stage2 \n"); 
     }
-    
+   
+    //   fmpz_clear(rs);	
+
     return;
 }
 

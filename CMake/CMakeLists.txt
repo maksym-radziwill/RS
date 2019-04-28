@@ -66,6 +66,9 @@ set(CMAKE_CUDA_FLAGS "-Xptxas -O2 ${ARCH}" )
 set(CMAKE_C_FLAGS "-O2 -march=native -Wall")
 set(CMAKE_CXX_FLAGS "-O2 -march=native -Wall")
 
+set(CMAKE_C_FLAGS_DEBUG "-ggdb3")
+set(CMAKE_CXX_FLAGS_DEBUG "-ggdb3")
+
 enable_language("CUDA")
 
 file(GLOB code

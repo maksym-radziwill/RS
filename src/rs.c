@@ -174,6 +174,13 @@ int main(int argc, char ** argv){
 	/* Gather results */
 	
 	zeta = compute_zeta(global_result_stage1, global_result_stage2, t, k);
+
+
+	free(local_result_stage1);
+	free(local_result_stage2);
+	free(global_result_stage1); 
+	free(global_result_stage2); 
+
     }
 
     if(!silent_flag)
@@ -202,4 +209,6 @@ int main(int argc, char ** argv){
 	arb_add(t, t, SHIFT, MAX_PREC);
     }
     
+
+ 
 }
