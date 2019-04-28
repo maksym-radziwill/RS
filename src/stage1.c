@@ -127,9 +127,10 @@ double _Complex * stage1(arb_t t, int k, int world_rnk, int world_sz){
 	if(load_data(t, k, result, world_rnk, world_sz, 1, dummy))
 	    return result; 
 
+
+    pthread_attr_t tattr = thread_priority(99);
     
     for(int i = 0; i < num_threads; i++){
-	pthread_attr_t tattr = thread_priority(99);
 	arb_init(th_args[i].t); arb_set(th_args[i].t, t);
 	th_args[i].tid = i; 
 	th_args[i].r = world_size*i + world_rank;
@@ -138,9 +139,10 @@ double _Complex * stage1(arb_t t, int k, int world_rnk, int world_sz){
 	pthread_create(&threads[i], &tattr, &riemann_siegel_progression_mpfr, &th_args[i]); 
     }
 
+    pthread_attr_t status_tattr = thread_priority(1); 
+    
     if(!silent_flag){
 	struct status_bar_args args;
-	pthread_attr_t tattr = thread_priority(1); 
 	args.maximal_n = &maximal_n;
 	args.global_n = &thread_n[0];
 	args.n_mutex = (pthread_mutex_t *) malloc(sizeof(pthread_mutex_t));
@@ -149,7 +151,7 @@ double _Complex * stage1(arb_t t, int k, int world_rnk, int world_sz){
 	args.world_size = world_size;
 	args.str = (char *) malloc(16);
 	sprintf(args.str, "Stage 1"); 
-	pthread_create(&status_bar_thread, &tattr, &status_bar_u, &args); 
+	pthread_create(&status_bar_thread, &status_tattr, &status_bar_u, &args); 
     }
 	
     for(int i = 0; i < num_threads; i++){
